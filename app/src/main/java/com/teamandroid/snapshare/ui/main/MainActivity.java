@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.teamandroid.snapshare.R;
 import com.teamandroid.snapshare.ui.login.LoginActivity;
 import com.teamandroid.snapshare.ui.main.home.HomeFragment;
@@ -24,23 +23,23 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment = HomeFragment.newInstance();
     BottomNavigationView navView;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-        = new BottomNavigationView.OnNavigationItemSelectedListener() {
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mFragmentManager.beginTransaction()
-                        .replace(R.id.content_container, homeFragment)
-                        .addToBackStack(null)
-                        .commit();
+                            .replace(R.id.content_container, homeFragment)
+                            .addToBackStack(null)
+                            .commit();
                     return true;
                 case R.id.navigation_search:
                     //TODO
                     SearchFragment searchFragment = SearchFragment.newInstance();
                     mFragmentManager.beginTransaction()
-                        .replace(R.id.content_container, searchFragment)
-                        .addToBackStack(null)
-                        .commit();
+                            .replace(R.id.content_container, searchFragment)
+                            .addToBackStack(null)
+                            .commit();
                     return true;
                 case R.id.navigation_add_post:
                     openPostActivity();
@@ -72,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
         navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mFragmentManager.beginTransaction()
-            .replace(R.id.content_container, homeFragment)
-            .addToBackStack(null)
-            .commit();
+                .replace(R.id.content_container, homeFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void openPostActivity() {
@@ -88,17 +87,18 @@ public class MainActivity extends AppCompatActivity {
         ProfileFragment profileFragment = ProfileFragment.newInstance(args);
         navView.setSelectedItemId(R.id.navigation_account);
         mFragmentManager.beginTransaction()
-            .replace(R.id.content_container, profileFragment)
-            .addToBackStack(HomeFragment.class.getName())
-            .commit();
+                .replace(R.id.content_container, profileFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void onBackPressed() {
-        if (mFragmentManager.getBackStackEntryCount() >0) {
-            mFragmentManager.popBackStack();
-        } else {
-            finish();
-        }
+//        if (mFragmentManager.getBackStackEntryCount() > 0) {
+//            mFragmentManager.popBackStack();
+//        } else {
+//            finish();
+//        }
+        finish();
     }
 }

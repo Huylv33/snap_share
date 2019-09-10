@@ -51,10 +51,10 @@ public class UserSearchViewModel extends ViewModel {
                         String matchLevelUsername = highlightResult.getJSONObject("username")
                                 .getString("matchLevel");
                         User user = new User();
-                        user.setUsername(jObject.getString("username"));
-                        user.setId(jObject.getString("id"));
-                        user.setAvatarUrl(jObject.getString("avatar_url"));
-                        user.setFullName(jObject.getString("full_name"));
+                        user.setUsername(jObject.getString(User.FIELD_USERNAME));
+                        user.setId(jObject.getString(User.FIELD_ID));
+                        user.setAvatarUrl(jObject.getString(User.FIELD_AVATAR_URL));
+                        user.setFullName(jObject.getString(User.FIELD_FULL_NAME));
                         users.add(user);
                     }
                     mUsers.setValue(users);

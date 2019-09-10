@@ -1,23 +1,18 @@
 package com.teamandroid.snapshare.data.repository;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.teamandroid.snapshare.data.model.Post;
-import com.teamandroid.snapshare.utils.Constants;
 import com.teamandroid.snapshare.data.model.User;
+import com.teamandroid.snapshare.utils.Constants;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +52,6 @@ public class FirestoreRepository {
                                 public void onSuccess(User result) {
                                     if (result != null) {
                                         post.setAuthor(result.getUsername());
-                                        Log.d("ahihi",result.getUsername());
                                         post.setAvatarUrl(result.getAvatarUrl());
                                     }
                                     posts.add(post);
@@ -80,14 +74,17 @@ public class FirestoreRepository {
                         callback.onFailure(e);
                     }
                 });
+
     }
 
+    public void getPostsByUser(String userId, final Callback<List<Post>> callback) {
+
+    }
 
     public void getPostsOf(String userId, final Callback<List<Post>> callback) {
-
         mFirestore.collection(Post.POST_COLLECTION)
                 .whereEqualTo(Post.FIELD_USER_ID, userId)
-                .orderBy(Post.FIELD_CREATED_AT,Query.Direction.DESCENDING)
+                .orderBy(Post.FIELD_CREATED_AT, Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -108,6 +105,21 @@ public class FirestoreRepository {
                     }
                 });
 
+    }
+
+    public void getFollowing(String userId, final Callback<List<String>> callback) {
+        final List<String> followings = new ArrayList<>();
+        mFirestore.collection(Constants.COLLECTION_FOLLOW).document(userId)
+                .collection(Constants.FOLLOW_FIELD_FOLLOWING).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            followings.add(documentSnapshot.getId());
+                        }
+                        callback.onSuccess(followings);
+                    }
+                });
     }
 
     public void addPost(Post post, final Callback<Void> callback) {
@@ -144,33 +156,34 @@ public class FirestoreRepository {
     }
 
     public void followUser(String currentUserId, String userId) {
-        HashMap<Object,Object> emptyData = new HashMap<>();
+        HashMap<Object, Object> emptyData = new HashMap<>();
         mFirestore.collection(Constants.COLLECTION_FOLLOW)
-            .document(currentUserId)
-            .collection(Constants.FOLLOW_FIELD_FOLLOWING)
-            .document(userId)
-            .set(emptyData);
+                .document(currentUserId)
+                .collection(Constants.FOLLOW_FIELD_FOLLOWING)
+                .document(userId)
+                .set(emptyData);
 
         mFirestore.collection(Constants.COLLECTION_FOLLOW)
-            .document(userId)
-            .collection(Constants.FOLLOW_FIELD_FOLLOWER)
-            .document(currentUserId)
-            .set(emptyData);
+                .document(userId)
+                .collection(Constants.FOLLOW_FIELD_FOLLOWER)
+                .document(currentUserId)
+                .set(emptyData);
     }
 
     public void unFollowUser(String currentUserId, String userId) {
         mFirestore.collection(Constants.COLLECTION_FOLLOW)
-            .document(currentUserId)
-            .collection(Constants.FOLLOW_FIELD_FOLLOWING)
-            .document(userId)
-            .delete();
+                .document(currentUserId)
+                .collection(Constants.FOLLOW_FIELD_FOLLOWING)
+                .document(userId)
+                .delete();
 
         mFirestore.collection(Constants.COLLECTION_FOLLOW)
-            .document(userId)
-            .collection(Constants.FOLLOW_FIELD_FOLLOWER)
-            .document(currentUserId)
-            .delete();
+                .document(userId)
+                .collection(Constants.FOLLOW_FIELD_FOLLOWER)
+                .document(currentUserId)
+                .delete();
     }
+
     public void getUserById(String id, final Callback<User> callback) {
         mFirestore.collection(User.COLLECTION).document(id).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -198,6 +211,7 @@ public class FirestoreRepository {
                 }
             });
     }
+
     public interface Callback<T> {
 
         void onSuccess(T result);
