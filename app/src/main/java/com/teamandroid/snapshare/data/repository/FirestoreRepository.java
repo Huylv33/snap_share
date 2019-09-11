@@ -200,6 +200,22 @@ public class FirestoreRepository {
                 });
     }
 
+    public void getPostById(String id, final Callback<Post> callback) {
+        mFirestore.collection(Post.POST_COLLECTION).document(id).get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        callback.onSuccess(documentSnapshot.toObject(Post.class));
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        callback.onFailure(e);
+                    }
+                });
+    }
+
     public void setAvatar(String userId, String avatarUrl, final Callback<Void> callback) {
         mFirestore.collection(User.COLLECTION)
             .document(userId)

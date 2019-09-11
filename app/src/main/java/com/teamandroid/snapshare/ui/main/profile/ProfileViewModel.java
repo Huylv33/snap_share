@@ -25,7 +25,6 @@ import java.util.List;
 public class ProfileViewModel extends ViewModel {
     private final String TAG = ProfileViewModel.class.getName();
     private MutableLiveData<List<Post>> mPosts = new MutableLiveData<>();
-    private MutableLiveData<User> mProfileUser = new MutableLiveData<>();
     private FirestoreRepository mFirestoreRepository = FirestoreRepository.getInstance();
     private FirebaseStorageRepository mFirebaseStorageRepository =
         FirebaseStorageRepository.getInstance();
@@ -35,10 +34,6 @@ public class ProfileViewModel extends ViewModel {
     private MutableLiveData<Boolean> mIsChangeAvatarSuccessful = new MutableLiveData<>();
 
     public ProfileViewModel() {
-    }
-
-    public boolean displayingCurrentUser(Bundle dataReceived) {
-        return dataReceived.getBoolean(Constants.PROFILE_USER_TAG);
     }
 
     public MutableLiveData<List<Post>> getUserPosts() {
@@ -88,9 +83,6 @@ public class ProfileViewModel extends ViewModel {
                         mIsFollowed.postValue(false);
                 }
             });
-    }
-
-    public void onThumbnailClick(Integer index) {
     }
 
     public void changeAvatarImage(Uri uri, final String userId) {
