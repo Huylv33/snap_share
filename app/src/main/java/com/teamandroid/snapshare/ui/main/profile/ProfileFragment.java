@@ -42,10 +42,8 @@ public class ProfileFragment extends Fragment implements ProfilePostAdapter.OnCl
     private ProfilePostAdapter mProfilePostAdapter;
     private String mUserId;
     private FragmentProfileBinding mBinding;
-    private ProfileMainItemBinding mItemBinding;
     private ProfileViewModel mProfileViewModel;
     private String mCurrentUserId;
-    private User mUser;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -100,7 +98,7 @@ public class ProfileFragment extends Fragment implements ProfilePostAdapter.OnCl
         Intent intent = new Intent(getContext(), DetailedPostActivity.class);
         Bundle args = new Bundle();
         args.putString(Constants.ARGUMENT_POST_ID, postId);
-        args.putString(Constants.ARGUMENT_USER_ID, this.mCurrentUserId);
+        args.putString(Constants.ARGUMENT_USER_ID, this.mUserId);
         intent.putExtras(args);
 
         startActivity(intent);

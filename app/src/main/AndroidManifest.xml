@@ -26,7 +26,7 @@
         <activity android:name=".ui.post.PostActivity"/>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
                   android:theme="@style/Base.Theme.AppCompat"/>
-
+        <activity android:name=".ui.main.profile.DetailedPostActivity"/>
     </application>
 
 </manifest>
