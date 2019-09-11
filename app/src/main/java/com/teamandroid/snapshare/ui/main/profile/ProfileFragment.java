@@ -3,11 +3,9 @@ package com.teamandroid.snapshare.ui.main.profile;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,14 +14,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.teamandroid.snapshare.R;
@@ -32,7 +27,6 @@ import com.teamandroid.snapshare.data.model.User;
 import com.teamandroid.snapshare.data.repository.FirestoreRepository;
 import com.teamandroid.snapshare.databinding.FragmentProfileBinding;
 import com.teamandroid.snapshare.databinding.ProfileMainItemBinding;
-import com.teamandroid.snapshare.generated.callback.OnClickListener;
 import com.teamandroid.snapshare.utils.Constants;
 import com.theartofdev.edmodo.cropper.CropImage;
 
@@ -168,40 +162,41 @@ public class ProfileFragment extends Fragment implements ProfilePostAdapter.OnCl
 
     private void listenLoadPosts() {
         mProfileViewModel.getUserPosts()
-            .observe(getViewLifecycleOwner(), new Observer<List<Post>>() {
-                @Override
-                public void onChanged(List<Post> posts) {
-                    mProfilePostAdapter.setData(posts);
-                }
-            });
+                .observe(getViewLifecycleOwner(), new Observer<List<Post>>() {
+                    @Override
+                    public void onChanged(List<Post> posts) {
+                        mProfilePostAdapter.setData(posts);
+                    }
+                });
         mProfileViewModel.getTotalPost()
-            .observe(this, new Observer<Integer>() {
-                @Override
-                public void onChanged(Integer postNumber) {
-                    String totalPost = String.format(getString(R.string.format_total_post),
-                        postNumber, postNumber > 1 ? "s" : "");
-                    mBinding.profilePostsNumber.setText(totalPost);
-                }
-            });
+                .observe(this, new Observer<Integer>() {
+                    @Override
+                    public void onChanged(Integer postNumber) {
+                        String totalPost = String.format(getString(R.string.format_total_post),
+                                postNumber, postNumber > 1 ? "s" : "");
+                        mBinding.profilePostsNumber.setText(totalPost);
+                    }
+                });
     }
 
     private void loadUserInfo(final String userId) {
         FirestoreRepository.getInstance().getUserById(userId,
-            new FirestoreRepository.Callback<User>() {
-                @Override
-                public void onSuccess(User result) {
-                    mBinding.setUser(result);
-                }
+                new FirestoreRepository.Callback<User>() {
+                    @Override
+                    public void onSuccess(User result) {
+                        mBinding.setUser(result);
+                    }
 
-                @Override
-                public void onFailure(Exception e) {
-                }
-            });
+                    @Override
+                    public void onFailure(Exception e) {
+                    }
+                });
     }
+
     private void openChooseImageScreen() {
         CropImage
-            .activity()
-            .start(Objects.requireNonNull(getActivity()),this);
+                .activity()
+                .start(Objects.requireNonNull(getActivity()), this);
     }
 
     @Override
@@ -211,7 +206,7 @@ public class ProfileFragment extends Fragment implements ProfilePostAdapter.OnCl
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 Uri resultUri = result.getUri();
-                mProfileViewModel.changeAvatarImage(resultUri,mUserId);
+                mProfileViewModel.changeAvatarImage(resultUri, mUserId);
                 mBinding.profileAvatar.setImageURI(resultUri);
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 Exception error = result.getError();

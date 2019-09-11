@@ -21,12 +21,12 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/login_tittle_top_margin"
-            android:layout_marginBottom="@dimen/login_tittle_bottom_margin"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
             android:fontFamily="@font/scriptin"
             android:text="@string/app_name"
             android:textColor="@color/white_color"
-            android:textSize="@dimen/login_tittle_text_size"
+            android:textSize="40dp"
             android:textStyle="bold" />
 
         <EditText
@@ -70,6 +70,7 @@
             android:fontFamily="@font/freight_sans_medium"
             android:hint="@string/email"
             android:padding="@dimen/padding_edit_text"
+            android:inputType="textEmailAddress"
             android:text="@={RegisterViewModel.email}"
             android:textColor="@color/milk_color"
             android:textColorHint="@color/milk_color" />
