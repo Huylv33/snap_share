@@ -35,7 +35,7 @@
             android:layout_below="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorGray"
+            android:background="@color/text_background_color"
             android:padding="@dimen/post_default_padding">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/height_button_follow"
                 android:layout_margin="@dimen/activity_horizontal_margin"
-                android:layout_toRightOf="@id/profile_full_name"
+                android:layout_alignParentRight="true"
                 android:background="@drawable/background_button_register"
                 android:textAllCaps="false"
                 android:textColor="@color/colorWhite"/>
